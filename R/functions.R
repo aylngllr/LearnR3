@@ -31,3 +31,23 @@ import_csv_files <- function(folder_path) {
   return(data)
 }
 
+#' Participant ID from the file path
+#'
+#' @param Data with file_path_id
+#'
+#' @returns A data
+#'
+get_participant_id <- function(data) {
+  data_with_id <- data |>
+    dplyr::mutate(
+      id = stringr::str_extract(
+        file_path_id,
+        "[:digit:]+\\.csv$"
+      ) |>
+        stringr::str_remove("\\.csv$") |>
+        as.integer(),
+      .before = file_path_id
+    ) |>
+    dplyr::select(-file_path_id)
+  return(data_with_id)
+}

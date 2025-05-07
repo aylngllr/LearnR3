@@ -14,8 +14,12 @@ library(snakecase)
 library(fs)
 library(stringr)
 source(here("R/functions.R"))
-cgm_data <- here("data-raw/dime/cgm") %>%
-  import_csv_files()
+cgm_data <- here("data-raw/dime/cgm") |>
+  import_csv_files() |>
+  get_participant_id()
+sleep_data <- here("data-raw/dime/sleep") |>
+  import_csv_files() |>
+  get_participant_id()
 ```
 
 ```{r}
@@ -115,7 +119,6 @@ here("data-raw/dime/sleep/102.csv") %>%
 ## Import DIME data function
 
 ```{r}
-
 ```
 
 
@@ -138,17 +141,19 @@ here("data-raw/dime/sleep/") |>
 ## Using regex for ID extraction
 
 ```{r}
-cgm_data |>
-  mutate(
-    id = str_extract(
-      file_path_id,
-      "[:digit:]+\\.csv$"
-    ) |>
-      str_remove("\\.csv$") |>
-      as.integer(),
-    .before = file_path_id
-  ) |>
-  select(-file_path_id)
+
 ```
 
+```{r}
+```
+```{r}
+# CGM data
+cgm_data <- here("data-raw/dime/cgm") |>
+  import_csv_files() |>
+  get_participant_id()
 
+# Sleep data
+sleep_data <- here("data-raw/dime/sleep") |>
+  import_csv_files() |>
+  get_participant_id()
+```
