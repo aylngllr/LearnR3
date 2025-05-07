@@ -13,13 +13,15 @@ library(here)
 library(snakecase)
 library(fs)
 library(stringr)
+library(lubridate)
 source(here("R/functions.R"))
 cgm_data <- here("data-raw/dime/cgm") |>
   import_csv_files() |>
   get_participant_id()
 sleep_data <- here("data-raw/dime/sleep") |>
   import_csv_files() |>
-  get_participant_id()
+  get_participant_id() |>
+  rename(datetime = date)
 ```
 
 ```{r}
@@ -141,7 +143,6 @@ here("data-raw/dime/sleep/") |>
 ## Using regex for ID extraction
 
 ```{r}
-
 ```
 
 ```{r}
@@ -156,4 +157,23 @@ cgm_data <- here("data-raw/dime/cgm") |>
 sleep_data <- here("data-raw/dime/sleep") |>
   import_csv_files() |>
   get_participant_id()
+```
+
+## Working with dates 
+
+```{r}
+```
+
+```{r}
+cgm_data |>
+  prepare_dates(device_timestamp)
+```
+
+```{r}
+cgm_data |>
+  prepare_dates(device_timestamp)
+sleep_data <- here("data-raw/dime/sleep") |>
+  import_csv_files() |>
+  get_participant_id() |>
+  rename(datetime = date)
 ```

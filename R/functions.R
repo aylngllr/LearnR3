@@ -51,3 +51,20 @@ get_participant_id <- function(data) {
     dplyr::select(-file_path_id)
   return(data_with_id)
 }
+
+#' Renaming the date in Sleep file
+#'
+#' @param data data
+#' @param column column
+#'
+#' @returns a data
+#'
+prepare_dates <- function(data, column) {
+  prepared_dates <- data |>
+    mutate(
+      date = as_date({{ column }}),
+      hour = hour({{ column }}),
+      .before = {{ column }}
+    )
+  return(prepared_dates)
+}
