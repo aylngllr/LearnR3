@@ -11,7 +11,11 @@ format: html
 library(tidyverse)
 library(here)
 library(snakecase)
+library(fs)
+library(stringr)
 source(here("R/functions.R"))
+cgm_data <- here("data-raw/dime/cgm") %>%
+  import_csv_files()
 ```
 
 ```{r}
@@ -122,3 +126,29 @@ here("data-raw/dime/cgm/101.csv") %>%
 here("data-raw/dime/sleep/101.csv") %>%
   import_dime()
 ```
+## Exercise: Convert map to function and use on sleep.
+
+```{r}
+here("data-raw/dime/cgm/") |>
+  import_csv_files()
+here("data-raw/dime/sleep/") |>
+  import_csv_files()
+```
+
+## Using regex for ID extraction
+
+```{r}
+cgm_data |>
+  mutate(
+    id = str_extract(
+      file_path_id,
+      "[:digit:]+\\.csv$"
+    ) |>
+      str_remove("\\.csv$") |>
+      as.integer(),
+    .before = file_path_id
+  ) |>
+  select(-file_path_id)
+```
+
+
